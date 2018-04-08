@@ -17,10 +17,19 @@ const Display = styled.section`
   font-size: 2rem;
 `;
 
-const KeyContainer = styled.section`
+const KeysContainer = styled.section`
+  display: flex;
+`;
+
+const NumberKeysContainer = styled.section`
   display: flex;
   flex-flow: row wrap;
-`;
+  flex: 3;
+`
+
+const OperatorsContainer = styled.section`
+  flex: 1;
+`
 
 export default class Calculator extends Component {
   state = {
@@ -37,20 +46,36 @@ export default class Calculator extends Component {
     })
   }
 
+  handleOperatorPress = operator => {
+    this.setState({
+      valueOne: this.state.display,
+      display: '0',
+      operator
+    })
+  }
+
   render() {
     return <CalculatorContainer>
       <Display>
         {this.state.display}
       </Display>
 
-      <KeyContainer>
+      <KeysContainer>
+        <NumberKeysContainer>
           {Array(12).fill('').map((key, index) => {
-            return <Key number={index}
-              key={index}
+            return <Key key={index}
+              number={index}
               onKeyPress={this.onKeyPress}
-            />;
+            > {index} </Key>;
           })}
-      </KeyContainer>
+        </NumberKeysContainer>
+
+        <OperatorsContainer>
+          <Key type={'operator'}
+            onKeyPress={() => this.handleOperatorPress('add')}
+          >+</Key>
+        </OperatorsContainer>
+      </KeysContainer>
     </CalculatorContainer>;
   }
 }
