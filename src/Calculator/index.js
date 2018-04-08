@@ -10,7 +10,11 @@ const CalculatorContainer = styled.article`
 
 const Display = styled.section`
   background-color: #ccc;
-  height: 4em;
+  padding: 0.5em 0.25em;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: 2rem;
 `;
 
 const KeyContainer = styled.section`
@@ -20,20 +24,24 @@ const KeyContainer = styled.section`
 
 export default class Calculator extends Component {
   state = {
-    lastPressed: ''
+    display: '0'
   }
 
   onKeyPress = (event, key) => {
     event.preventDefault();
 
+    const currentDisplay = this.state.display;
+
     this.setState({
-      lastPressed: key
+      display: currentDisplay === '0' ? String(key) : currentDisplay + key
     })
   }
 
   render() {
     return <CalculatorContainer>
-      <Display />
+      <Display>
+        {this.state.display}
+      </Display>
 
       <KeyContainer>
           {Array(12).fill('').map((key, index) => {
