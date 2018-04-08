@@ -18,12 +18,19 @@ const KeyWrapper = styled.div`
   flex-basis: 33.333%;
 `;
 
-function Key({size, number, onKeyPress}) {
-  const KeyContainer = getInnerContainer(size.width);
+function Key(props) {
+  const {
+    size: { width },
+    number,
+    onKeyPress,
+    children
+  } = props
+
+  const KeyContainer = getInnerContainer(width);
 
   return <KeyWrapper>
     <KeyContainer onClick={event => onKeyPress(event, number)}>
-      {number}
+      {props.children}
     </KeyContainer>
   </KeyWrapper>;
 }
