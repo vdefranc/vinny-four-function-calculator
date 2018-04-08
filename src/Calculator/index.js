@@ -25,25 +25,25 @@ const NumberKeysContainer = styled.section`
   display: flex;
   flex-flow: row wrap;
   flex: 3;
-`
+`;
 
 const OperatorsContainer = styled.section`
   flex: 1;
-`
+`;
 
 export default class Calculator extends Component {
   state = {
     display: '0'
   }
 
-  onKeyPress = (event, key) => {
+  onNumberPress = (event, key) => {
     event.preventDefault();
 
-    const currentDisplay = String(this.state.display);
+    const { display } = this.state;
+    const currentDisplay = String(display);
+    const newDisplay = currentDisplay === '0' ? String(key) : currentDisplay + key;
 
-    this.setState({
-      display: currentDisplay === '0' ? String(key) : currentDisplay + key
-    })
+    this.setState({ display: newDisplay })
   }
 
   handleOperatorPress = operator => {
@@ -61,15 +61,30 @@ export default class Calculator extends Component {
       return;
     }
 
+    const result = this[operator](valueOne, parseFloat(display));
+
     this.setState({
-      display: this[operator](valueOne, parseFloat(display)),
+      display: String(result),
       valueTwo: '',
       operator: '',
-      valueOne
+      valueOne: result
     })
   }
 
+
+  operatorSymbols = {
+    'add': '+',
+    'subtract': '—',
+    'divide': '/',
+    'multiply': 'X'
+  }
+
+  operators = Object.keys(this.operatorSymbols);
+
   add = (valueOne, valueTwo) => valueOne + valueTwo
+  subtract = (valueOne, valueTwo) => valueOne - valueTwo
+  multiply = (valueOne, valueTwo) => valueOne * valueTwo
+  divide = (valueOne, valueTwo) => valueOne / valueTwo
 
   render() {
     return <CalculatorContainer>
@@ -82,15 +97,18 @@ export default class Calculator extends Component {
           {Array(12).fill('').map((key, index) => {
             return <Key key={index}
               number={index}
-              onKeyPress={this.onKeyPress}
+              onKeyPress={this.onNumberPress}
             > {index} </Key>;
           })}
         </NumberKeysContainer>
 
         <OperatorsContainer>
-          <Key type="operator"
-            onKeyPress={() => this.handleOperatorPress('add')}
-          >+</Key>
+          {this.operators.map(operator =>
+            <Key key={operator}
+              type="operator"
+              onKeyPress={() => this.handleOperatorPress(operator)}
+            >{this.operatorSymbols[operator]}</Key>
+          )}
 
           <Key type="equals"
             onKeyPress={() => this.handleEqualsPress()}
