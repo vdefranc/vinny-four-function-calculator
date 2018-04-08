@@ -39,7 +39,7 @@ export default class Calculator extends Component {
   onKeyPress = (event, key) => {
     event.preventDefault();
 
-    const currentDisplay = this.state.display;
+    const currentDisplay = String(this.state.display);
 
     this.setState({
       display: currentDisplay === '0' ? String(key) : currentDisplay + key
@@ -48,11 +48,28 @@ export default class Calculator extends Component {
 
   handleOperatorPress = operator => {
     this.setState({
-      valueOne: this.state.display,
+      valueOne: parseFloat(this.state.display),
       display: '0',
       operator
     })
   }
+
+  handleEqualsPress = () => {
+    const { valueOne, operator, display } = this.state;
+
+    if (!valueOne || !operator) {
+      return;
+    }
+
+    this.setState({
+      display: this[operator](valueOne, parseFloat(display)),
+      valueTwo: '',
+      operator: '',
+      valueOne
+    })
+  }
+
+  add = (valueOne, valueTwo) => valueOne + valueTwo
 
   render() {
     return <CalculatorContainer>
@@ -71,9 +88,13 @@ export default class Calculator extends Component {
         </NumberKeysContainer>
 
         <OperatorsContainer>
-          <Key type={'operator'}
+          <Key type="operator"
             onKeyPress={() => this.handleOperatorPress('add')}
           >+</Key>
+
+          <Key type="equals"
+            onKeyPress={() => this.handleEqualsPress()}
+          >=</Key>
         </OperatorsContainer>
       </KeysContainer>
     </CalculatorContainer>;
