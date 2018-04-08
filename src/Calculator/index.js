@@ -72,7 +72,7 @@ export default class Calculator extends Component {
       return;
     }
 
-    const result = this[operator](valueOne, parseFloat(display));
+    const result = this.operations[operator](valueOne, parseFloat(display));
 
     this.setState({
       display: String(result),
@@ -92,10 +92,12 @@ export default class Calculator extends Component {
 
   operators = Object.keys(this.operatorSymbols);
 
-  add = (valueOne, valueTwo) => valueOne + valueTwo
-  subtract = (valueOne, valueTwo) => valueOne - valueTwo
-  multiply = (valueOne, valueTwo) => valueOne * valueTwo
-  divide = (valueOne, valueTwo) => valueOne / valueTwo
+  operations = {
+    add: (valueOne, valueTwo) => valueOne + valueTwo,
+    subtract: (valueOne, valueTwo) => valueOne - valueTwo,
+    multiply: (valueOne, valueTwo) => valueOne * valueTwo,
+    divide: (valueOne, valueTwo) => valueOne / valueTwo
+  }
 
   render() {
     return <CalculatorContainer>
