@@ -21,7 +21,7 @@ const KeysContainer = styled.section`
   display: flex;
 `;
 
-const NumberKeysContainer = styled.section`
+const MainKeysContainer = styled.section`
   display: flex;
   flex-flow: row wrap;
   flex: 3;
@@ -82,6 +82,35 @@ export default class Calculator extends Component {
     })
   }
 
+  onClear = () => {
+    this.setState({
+      display: '0',
+      valueOne: '',
+      valueTwo: '',
+      operator: ''
+    })
+  }
+
+  onPercent = () => {
+    const display = parseFloat(this.state.display);
+
+    this.setState({
+      display: String(display / 100)
+    });
+  }
+
+  onNegativePositive = () => {
+    const currentDisplay = this.state.display;
+    let newDisplay = '';
+
+    if (currentDisplay[0] === '-') {
+      newDisplay = currentDisplay.slice(1);
+    } else {
+      newDisplay = `-${currentDisplay}`;
+    }
+
+    this.setState({ display: newDisplay })
+  }
 
   operatorSymbols = {
     'add': '+',
@@ -106,7 +135,19 @@ export default class Calculator extends Component {
       </Display>
 
       <KeysContainer>
-        <NumberKeysContainer>
+        <MainKeysContainer>
+          <Key onKeyPress={this.onClear}>
+           C
+          </Key>
+
+          <Key onKeyPress={this.onPercent}>
+           %
+          </Key>
+
+          <Key onKeyPress={this.onNegativePositive}>
+           +/-
+          </Key>
+
           {this.numberKeys.slice(1).reverse()}
 
           {this.numberKeys[0]}
@@ -118,7 +159,7 @@ export default class Calculator extends Component {
           <Key type="equals"
             onKeyPress={() => this.handleEqualsPress()}
           > = </Key>
-        </NumberKeysContainer>
+        </MainKeysContainer>
 
         <OperatorsContainer>
           {this.operators.map(operator =>
