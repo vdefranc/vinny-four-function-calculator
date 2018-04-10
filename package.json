@@ -29,7 +29,7 @@
     "startlocal": "react-scripts build",
     "start": "http-server build",
     "server": "http-server build",
-    "build": "react-scripts build",
+    "build": "NODE_ENV=production && react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }
