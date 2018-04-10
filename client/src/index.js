@@ -18,7 +18,7 @@ import App from './App';
 import styled from 'styled-components';
 
 const httpLink = new HttpLink({
-  uri: 'https://floating-brushlands-52621.herokuapp.com/'
+  uri: 'http://localhost:4000'
 });
 
 // const wsLink = new WebSocketLink({

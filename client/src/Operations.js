@@ -88,6 +88,10 @@ class Operations extends React.Component {
 const OPERATIONS_QUERY = gql`
   query GetOperations ($calculatorId: ID!){
     operations(calculatorId: $calculatorId) {
+      valueOne
+      valueTwo
+      result
+      operator
       id
     }
   }
