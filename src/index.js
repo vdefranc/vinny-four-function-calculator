@@ -17,30 +17,36 @@ import App from './App';
 
 import styled from 'styled-components';
 
-const httpLink = new HttpLink({ uri: 'http://localhost:4000' });
+const uri = process.env.NODE_ENV === 'production' ?
+  'https://aqueous-mesa-53497.herokuapp.com/' :
+  'http://localhost:4000';
 
-const wsLink = new WebSocketLink({
-  uri: `ws://localhost:4000`,
-  options: {
-    reconnect: true,
-    // connectionParams: {
-    //   authToken: localStorage.getItem(AUTH_TOKEN),
-    // }
-  }
+const httpLink = new HttpLink({
+  uri: 'http://localhost:4000'
 });
 
-const link = split(
-  ({ query }) => {
-    const { kind, operation } = getMainDefinition(query);
-    return kind === 'OperationDefinition' && operation === 'subscription';
-  },
-  wsLink,
-  httpLink,
-);
+// const wsLink = new WebSocketLink({
+//   uri: `ws://localhost:4000`,
+//   options: {
+//     reconnect: true,
+//     // connectionParams: {
+//     //   authToken: localStorage.getItem(AUTH_TOKEN),
+//     // }
+//   }
+// });
+
+// const link = split(
+//   ({ query }) => {
+//     const { kind, operation } = getMainDefinition(query);
+//     return kind === 'OperationDefinition' && operation === 'subscription';
+//   },
+//   wsLink,
+//   httpLink,
+// );
 
 // 3
 const client = new ApolloClient({
-  link,
+  link: httpLink,
   cache: new InMemoryCache()
 });
 
