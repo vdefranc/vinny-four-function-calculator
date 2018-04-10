@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Key from './Key';
+import gql from 'graphql-tag';
+import { graphql } from 'react-apollo';
 
 const CalculatorContainer = styled.article`
   border-radius: 3px;
@@ -63,7 +65,7 @@ class Calculator extends Component {
       valueOne: parseFloat(this.state.display),
       display: '0',
       operator
-    })
+    });
   }
 
   handleEqualsPress = () => {
@@ -75,12 +77,31 @@ class Calculator extends Component {
 
     const result = this.operations[operator](valueOne, parseFloat(display));
 
+    const operation = {
+      operator,
+      valueOne,
+      result,
+      valueTwo: parseFloat(display)
+    };
+
+    this.props.addOperation({
+      variables: {
+        calculatorId: this.props.id,
+        operation
+      }
+    });
+
+    this.props.onNewOperation({
+      id: operation.valueOne + operation.result + operation.operator,
+      ...operation
+    });
+
     this.setState({
       display: String(result),
       valueTwo: '',
       operator: '',
       valueOne: result
-    })
+    });
   }
 
   onClear = () => {
@@ -180,3 +201,16 @@ class Calculator extends Component {
     </CalculatorContainer>;
   }
 }
+
+const ADD_OPERATION_MUTATION = gql`
+  mutation AddOperation($calculatorId: String!, $operation: OperationInput!) {
+    addOperation(calculatorId: $calculatorId, operation: $operation) {
+      valueOne
+      valueTwo
+      result
+      operator
+    }
+  }
+`;
+
+export default graphql(ADD_OPERATION_MUTATION, { name: 'addOperation' })(Calculator);
