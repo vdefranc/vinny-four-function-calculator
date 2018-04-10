@@ -2,20 +2,22 @@ import React from 'react';
 import styled from 'styled-components';
 import sizeMe from 'react-sizeme';
 
-const getInnerContainer = (width) => styled.div`
+const getKeyWrapper = (height, isDoubleWidth, backgroundColor, activeColor) => styled.div`
+  border-top: 1px solid #888;
+  ${!activeColor && 'border-right: 1px solid #888;'}
+  ${activeColor && 'color: white;'}
+  flex: ${isDoubleWidth? 2 : 1};
+  flex-basis: ${isDoubleWidth ? '66.666%' : '33.333%'};
+  height: ${height}px;
   text-align: center;
-  height: ${width}px
-  background-color: #fff;
+  background-color: ${backgroundColor || '#fff'};
   display: flex;
   flex-direction: column;
   justify-content: center;
   cursor: pointer;
-`;
-
-const KeyWrapper = styled.div`
-  padding: 1em;
-  flex: 1;
-  flex-basis: 33.333%;
+  :active {
+    background-color: ${activeColor || '#ddd'};
+  }
 `;
 
 function Key(props) {
@@ -23,15 +25,17 @@ function Key(props) {
     size: { width },
     number,
     onKeyPress,
-    children
+    children,
+    isDoubleWidth,
+    backgroundColor,
+    activeColor
   } = props
 
-  const KeyContainer = getInnerContainer(width);
+  const height = isDoubleWidth ? width / 2 : width;
+  const KeyWrapper = getKeyWrapper(height, isDoubleWidth, backgroundColor, activeColor);
 
-  return <KeyWrapper>
-    <KeyContainer onClick={event => onKeyPress(event, number)}>
-      {props.children}
-    </KeyContainer>
+  return <KeyWrapper onClick={event => onKeyPress(event, number)}>
+      {children}
   </KeyWrapper>;
 }
 

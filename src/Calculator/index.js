@@ -3,14 +3,14 @@ import styled from 'styled-components';
 import Key from './Key';
 
 const CalculatorContainer = styled.article`
-  padding: 1em;
-  width: 400px;
-  background-color: #eee;
+  border-radius: 3px;
+  overflow: hidden
 `;
 
 const Display = styled.section`
-  background-color: #ccc;
-  padding: 0.5em 0.25em;
+  background-color: #aaa;
+  color: white;
+  padding: 0.75em 0.25em;
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -31,13 +31,13 @@ const OperatorsContainer = styled.section`
   flex: 1;
 `;
 
-export default class Calculator extends Component {
+class Calculator extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       display: '0'
-    }
+    };
 
     this.onNumberPress = (event, key) => {
       event.preventDefault();
@@ -46,13 +46,14 @@ export default class Calculator extends Component {
       const currentDisplay = String(display);
       const newDisplay = currentDisplay === '0' ? String(key) : currentDisplay + key;
 
-      this.setState({ display: newDisplay })
+      this.setState({ display: newDisplay });
     };
 
     this.numberKeys = Array(10).fill('').map((item, index) =>
       <Key key={index}
         number={index}
         onKeyPress={this.onNumberPress}
+        isDoubleWidth={index === 0}
       > {index} </Key>
     );
   }
@@ -136,15 +137,15 @@ export default class Calculator extends Component {
 
       <KeysContainer>
         <MainKeysContainer>
-          <Key onKeyPress={this.onClear}>
+          <Key onKeyPress={this.onClear} backgroundColor={'#eee'}>
            C
           </Key>
 
-          <Key onKeyPress={this.onPercent}>
+          <Key onKeyPress={this.onPercent} backgroundColor={'#eee'}>
            %
           </Key>
 
-          <Key onKeyPress={this.onNegativePositive}>
+          <Key onKeyPress={this.onNegativePositive} backgroundColor={'#eee'}>
            +/-
           </Key>
 
@@ -155,21 +156,25 @@ export default class Calculator extends Component {
           <Key type="decimal"
             onKeyPress={(e) => this.onNumberPress(e, '.')}
           > . </Key>
-
-          <Key type="equals"
-            onKeyPress={() => this.handleEqualsPress()}
-          > = </Key>
         </MainKeysContainer>
 
         <OperatorsContainer>
-          {this.operators.map(operator =>
-            <Key key={operator}
+          {this.operators.map(operator => {
+            return <Key key={operator}
               type="operator"
+              backgroundColor="#f59c42"
+              activeColor="#ca7f34"
               onKeyPress={() => this.handleOperatorPress(operator)}>
 
               {this.operatorSymbols[operator]}
             </Key>
-          )}
+          })}
+
+          <Key type="equals"
+            backgroundColor={'#f59c42'}
+            activeColor="#ca7f34"
+            onKeyPress={() => this.handleEqualsPress()}
+          > = </Key>
         </OperatorsContainer>
       </KeysContainer>
     </CalculatorContainer>;
