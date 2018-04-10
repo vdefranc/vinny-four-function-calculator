@@ -1,9 +1,5 @@
-const { GraphQLServer } = require('graphql-yoga')
-const { Prisma } = require('prisma-binding')
-const Query = require('./resolvers/Query')
-const Mutation = require('./resolvers/Mutation')
-const Subscription = require('./resolvers/Subscription')
-const Feed = require('./resolvers/Feed')
+const { GraphQLServer } = require('graphql-yoga');
+const { Prisma } = require('prisma-binding');
 
 const uuidv4 = require('uuid/v4');
 
