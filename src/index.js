@@ -22,7 +22,7 @@ const uri = process.env.NODE_ENV === 'production' ?
   'http://localhost:4000';
 
 const httpLink = new HttpLink({
-  uri: 'http://localhost:4000'
+  uri
 });
 
 // const wsLink = new WebSocketLink({
