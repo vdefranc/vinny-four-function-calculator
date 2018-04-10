@@ -13,7 +13,7 @@ import App from './App';
 
 
 const httpLink = new HttpLink({
-  uri: 'https://floating-brushlands-52621.herokuapp.com/'
+  uri: 'https://aqueous-mesa-53497.herokuapp.com/'
 });
 
 const client = new ApolloClient({
