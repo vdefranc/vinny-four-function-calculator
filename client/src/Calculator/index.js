@@ -9,6 +9,7 @@ const CalculatorContainer = styled.article`
   overflow: hidden;
   width: 300px;
   margin-right: 2em;
+  display: inline-block;
 `;
 
 const Display = styled.section`

@@ -7,6 +7,8 @@ import styled from 'styled-components';
 
 
 const AppContainer = styled.main`
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
 `;
 
@@ -39,7 +41,7 @@ class App extends React.Component {
     }
 
     return <AppContainer>
-    
+
       <Calculator id={this.state.id} onNewOperation={(operation) => {
         this.setState({
           newOperations: this.state.newOperations.concat(operation)
