@@ -3,7 +3,7 @@
 
 type Query {
   calculator(id: ID): Calculator!
-  operations(calculatorId: ID): [Operation!]!
+  operations(calculatorId: ID!): [Operation]!
 }
 
 type Calculator {
