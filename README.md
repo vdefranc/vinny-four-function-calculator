@@ -17,6 +17,4 @@ I was frustrated that it took me some time to figure out how to work with Prisma
 
 I wish it was responsive. I wish I had some time to make the operation history look a lot nicer.
 
-Also, I really hate and am terrified that the apollo client is hitting 'localhost' when deployed to heroku.
-
 Alright, I need to be getting back to work :) Thanks for reading.
