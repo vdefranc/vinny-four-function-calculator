@@ -22,7 +22,7 @@ const uri = process.env.NODE_ENV === 'production' ?
   'http://localhost:4000';
 
 const httpLink = new HttpLink({
-  uri
+  uri: 'https://aqueous-mesa-53497.herokuapp.com/'
 });
 
 // const wsLink = new WebSocketLink({
