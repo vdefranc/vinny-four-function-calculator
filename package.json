@@ -27,7 +27,7 @@
   },
   "scripts": {
     "startlocal": "react-scripts build",
-    "start": "react-scripts build && http-server build",
+    "start": "http-server build",
     "server": "http-server build",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
