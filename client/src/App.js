@@ -40,6 +40,8 @@ class App extends React.Component {
       return 'loading';
     }
 
+    console.log('hey')
+
     return <AppContainer>
       <div style={{flex: 1}}>
         <Calculator id={this.state.id} onNewOperation={(operation) => {

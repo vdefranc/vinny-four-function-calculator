@@ -5,8 +5,7 @@
   },
   "private": true,
   "scripts": {
-    "start": "cd client && yarn start && cd .. && node src/index.js",
-    "startserver": "node src/index.js",
+    "start": "node src/index.js",
     "dev": "npm-run-all --parallel start playground",
     "playground": "graphql playground",
     "prisma": "prisma"
