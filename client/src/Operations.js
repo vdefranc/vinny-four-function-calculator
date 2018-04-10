@@ -18,7 +18,7 @@ const Container = styled.div`
 
 const Operation = styled.div`
   color: white;
-  padding: 1em;
+  padding: 0.25em 0;
 `;
 
 const operationSymbols = {
@@ -75,7 +75,6 @@ class Operations extends React.Component {
       <Container>
         {operationsToRender.map(operation => {
           return <Operation key={operation.id}>
-
             {operation.valueOne} {operationSymbols[operation.operator]} {operation.valueTwo} = {operation.result}
           </Operation>;
         })}
