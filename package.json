@@ -24,6 +24,7 @@
     "symbol-observable": "^1.2.0"
   },
   "scripts": {
+    "postinstall": "react-scripts build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
