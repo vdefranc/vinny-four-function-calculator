@@ -17,12 +17,8 @@ import App from './App';
 
 import styled from 'styled-components';
 
-const uri = process.env.NODE_ENV === 'production' ?
-  'https://aqueous-mesa-53497.herokuapp.com/' :
-  'http://localhost:4000';
-
 const httpLink = new HttpLink({
-  uri: '/'
+  uri: 'https://floating-brushlands-52621.herokuapp.com/'
 });
 
 // const wsLink = new WebSocketLink({

@@ -12,8 +12,8 @@ const OuterContainer = styled.aside`
 `
 
 const Container = styled.div`
-  border: 1px solid white;
-  height: 80vh;
+  ${'' /* border: 1px solid white;
+  height: 80vh; */}
   overflow-y: scroll;
 `
 
@@ -21,6 +21,13 @@ const Operation = styled.div`
   color: white;
   padding: 1em;
 `
+
+const operationSymbols = {
+  'add': '+',
+  'subtract': '—',
+  'divide': '/',
+  'multiply': 'X'
+};
 
 class Operations extends React.Component {
   componentDidMount() {
@@ -69,7 +76,8 @@ class Operations extends React.Component {
       <Container>
         {operationsToRender.map(operation => {
           return <Operation key={operation.id}>
-            {operation.operator}: {operation.valueOne} & {operation.valueTwo} = {operation.result}
+
+            {operation.valueOne} {operationSymbols[operation.operator]} {operation.valueTwo} = {operation.result}
           </Operation>;
         })}
       </Container>
