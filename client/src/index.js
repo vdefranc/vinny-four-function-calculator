@@ -7,40 +7,15 @@ import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
 import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { graphql } from 'react-apollo';
-import gql from 'graphql-tag';
+import styled from 'styled-components';
 
-import { ApolloLink, split } from 'apollo-client-preset';
-import { WebSocketLink } from 'apollo-link-ws';
-import { getMainDefinition } from 'apollo-utilities';
 import App from './App';
 
-import styled from 'styled-components';
 
 const httpLink = new HttpLink({
   uri: 'http://localhost:4000'
 });
 
-// const wsLink = new WebSocketLink({
-//   uri: `ws://localhost:4000`,
-//   options: {
-//     reconnect: true,
-//     // connectionParams: {
-//     //   authToken: localStorage.getItem(AUTH_TOKEN),
-//     // }
-//   }
-// });
-
-// const link = split(
-//   ({ query }) => {
-//     const { kind, operation } = getMainDefinition(query);
-//     return kind === 'OperationDefinition' && operation === 'subscription';
-//   },
-//   wsLink,
-//   httpLink,
-// );
-
-// 3
 const client = new ApolloClient({
   link: httpLink,
   cache: new InMemoryCache()
@@ -61,7 +36,6 @@ const Header = styled.h1`
   -webkit-text-stroke: 1px #f975f7;
   filter: drop-shadow(1px 1px 3px #f008b7);
   margin-bottom: 0.5em;
-  text-align: center;
 `;
 
 ReactDOM.render(

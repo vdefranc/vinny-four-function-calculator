@@ -8,8 +8,6 @@ import styled from 'styled-components';
 
 const AppContainer = styled.main`
   display: flex;
-  width: 75%;
-  margin: 0 auto;
 `;
 
 class App extends React.Component {
@@ -37,21 +35,18 @@ class App extends React.Component {
 
   render() {
     if (this.state.loading) {
-      return 'loading';
+      return null;
     }
 
-    console.log('hey')
-
     return <AppContainer>
-      <div style={{flex: 1}}>
-        <Calculator id={this.state.id} onNewOperation={(operation) => {
-          this.setState({
-            newOperations: this.state.newOperations.concat(operation)
-          })
-        }} />
-      </div>
+    
+      <Calculator id={this.state.id} onNewOperation={(operation) => {
+        this.setState({
+          newOperations: this.state.newOperations.concat(operation)
+        })
+      }} />
 
-      <div style={{flex: 1}}>
+      <div style={{flex: 2}}>
         <Operations calculatorId={this.state.id} newOperations={this.state.newOperations} />
       </div>
     </AppContainer>

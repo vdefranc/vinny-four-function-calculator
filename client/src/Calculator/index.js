@@ -6,7 +6,9 @@ import { graphql } from 'react-apollo';
 
 const CalculatorContainer = styled.article`
   border-radius: 3px;
-  overflow: hidden
+  overflow: hidden;
+  width: 300px;
+  margin-right: 2em;
 `;
 
 const Display = styled.section`
