@@ -60,7 +60,9 @@ class Calculator extends Component {
     );
   }
 
-  getCurrentOperandValue = () => this.state[this.state.currentOperand];
+  getCurrentOperandValue = () => this.state[this.state.currentOperand] || '0';
+
+  editingFirstOperand = () => this.state.currentOperand === 'operandOne';
 
   getCurrentDisplayValue = () => {
     const currentOperandValue = this.state[this.state.currentOperand];
@@ -72,54 +74,66 @@ class Calculator extends Component {
     return currentOperandValue;
   }
 
-  
+  getNextOperandKey = () => {
+    if (this.state.currentOperand === 'operandOne') {
+      return 'operandTwo';
+    }
 
-  // this function sucks and I wish I had time to refactor it
-  // ...bad programming here :(
+    return 'operandOne';
+  }
+
+  restartWithFirstOperandValue = (val) => {
+    this.setState({
+      currentOperand: 'operandOne',
+      operandOne: val
+    });
+  }
+
   onNumberPress = (event, key) => {
     event.preventDefault();
+
+    if (!this.editingFirstOperand() && !this.state.operator) {
+      this.restartWithFirstOperandValue(String(key));
+    }
 
     const currentOperandValue = this.getCurrentOperandValue();
     const notInitialValue = currentOperandValue && currentOperandValue !== '0';
     const newOperandValue = notInitialValue ? currentOperandValue + key : String(key);
 
     this.setState({ [this.state.currentOperand]: newOperandValue });
-
-    // const addingSecondDecimal = key === '.' && currentOperand.indexOf('.') >= 0;
-
-    // if (this.state.valueOne && !this.state.operator) {
-    //   newDisplay = String(key);
-    //   return this.setState({ display: newDisplay, valueOne: newDisplay });
-    // }
-
-    // if (!addingSecondDecimal) {
-    // }
   };
 
+  onDecimalPress = (event, key) => {
+    if (!this.editingFirstOperand() && !this.state.operator) {
+      this.restartWithFirstOperandValue('0.');
+    }
+
+    const addingSecondDecimal = key === '.' && this.getCurrentOperandValue().indexOf('.') >= 0;
+
+    if (!addingSecondDecimal) {
+      const currentOperandValue = this.getCurrentOperandValue();
+
+      this.setState({
+        [this.state.currentOperand]: currentOperandValue + '.'
+      });
+    }
+  }
 
   handleOperatorPress = operator => {
     const currentOperand = this.state.currentOperand;
 
-    if (currentOperand === 'operandTwo' && !this.state.operandTwo) {
+    if (!this.editingFirstOperand() && !this.state.operandTwo) {
       return this.setState({
         operator
       });
     }
 
-    if (currentOperand === 'operandTwo' && this.state.operandTwo) {
+    if (!this.editingFirstOperand() && this.state.operandTwo) {
       return this.handleEqualsPress(operator);
     }
 
-    let newCurrentOperand = '';
-
-    if (currentOperand === 'operandOne') {
-      newCurrentOperand = 'operandTwo';
-    } else {
-      newCurrentOperand = 'operandOne';
-    }
-
     this.setState({
-      currentOperand: newCurrentOperand,
+      currentOperand: this.getNextOperandKey(),
       operator
     });
   }
@@ -165,7 +179,7 @@ class Calculator extends Component {
     this.setState({
       operandOne: '0',
       operandTwo: '',
-      currendOperand: '',
+      currendOperand: 'operandOne',
       operator: ''
     })
   }
@@ -232,7 +246,7 @@ class Calculator extends Component {
           {this.numberKeys[0]}
 
           <Key type="decimal"
-            onKeyPress={(e) => this.onNumberPress(e, '.')}
+            onKeyPress={(e) => this.onDecimalPress(e, '.')}
           > . </Key>
         </MainKeysContainer>
 
