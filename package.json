@@ -22,7 +22,8 @@
     "symbol-observable": "^1.2.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "startdev": "react-scripts start",
+    "start": "node index.js",
     "build": "NODE_ENV=production && react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
