@@ -43,25 +43,28 @@ class Calculator extends Component {
     this.state = {
       display: '0'
     };
+  }
 
-    this.onNumberPress = (event, key) => {
-      event.preventDefault();
-
-      const { display } = this.state;
-      const currentDisplay = String(display);
-      const newDisplay = currentDisplay === '0' ? String(key) : currentDisplay + key;
-
-      this.setState({ display: newDisplay });
-    };
-
+  componentWillMount() {
     this.numberKeys = Array(10).fill('').map((item, index) =>
-      <Key key={index}
-        number={index}
-        onKeyPress={this.onNumberPress}
-        isDoubleWidth={index === 0}
+    <Key key={index}
+      number={index}
+      onKeyPress={this.onNumberPress}
+      isDoubleWidth={index === 0}
       > {index} </Key>
     );
   }
+
+  onNumberPress = (event, key) => {
+    event.preventDefault();
+
+    const { display } = this.state;
+    const currentDisplay = String(display);
+    const newDisplay = currentDisplay === '0' ? String(key) : currentDisplay + key;
+
+    this.setState({ display: newDisplay });
+  };
+
 
   handleOperatorPress = operator => {
     this.setState({
