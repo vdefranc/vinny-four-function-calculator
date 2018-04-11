@@ -183,24 +183,25 @@ class Calculator extends Component {
   }
 
   onPercent = () => {
-    const display = parseFloat(this.state.display);
+    const currentValue = parseFloat(this.getCurrentOperandValue());
 
     this.setState({
-      display: String(display / 100)
+      [this.state.currentOperand]: String(currentValue / 100)
     });
   }
 
   onNegativePositive = () => {
-    const currentDisplay = this.state.display;
-    let newDisplay = '';
+    const currentValue = this.getCurrentOperandValue();
 
-    if (currentDisplay[0] === '-') {
-      newDisplay = currentDisplay.slice(1);
+    let newValue = '';
+
+    if (currentValue[0] === '-') {
+      newValue = currentValue.slice(1);
     } else {
-      newDisplay = `-${currentDisplay}`;
+      newValue = `-${currentValue}`;
     }
 
-    this.setState({ display: newDisplay })
+    this.setState({ [this.state.currentOperand]: newValue });
   }
 
   operatorSymbols = {
