@@ -72,6 +72,8 @@ class Calculator extends Component {
     return currentOperandValue;
   }
 
+  
+
   // this function sucks and I wish I had time to refactor it
   // ...bad programming here :(
   onNumberPress = (event, key) => {
@@ -104,9 +106,11 @@ class Calculator extends Component {
       });
     }
 
-    const valueOne = parseFloat(this.state.display);
+    if (currentOperand === 'operandTwo' && this.state.operandTwo) {
+      return this.handleEqualsPress(operator);
+    }
 
-    let newCurrentOperand = ''
+    let newCurrentOperand = '';
 
     if (currentOperand === 'operandOne') {
       newCurrentOperand = 'operandTwo';
@@ -121,7 +125,7 @@ class Calculator extends Component {
   }
 
   // this function also sucks and I wish I had time to refactor this too
-  handleEqualsPress = () => {
+  handleEqualsPress = (newOperator = '') => {
     const { operandOne, operandTwo, operator } = this.state;
 
     if (!operandOne || !operator) {
@@ -153,7 +157,7 @@ class Calculator extends Component {
       operandOne: String(result),
       operandTwo: '',
       currendOperand: 'operandOne',
-      operator: ''
+      operator: newOperator
     });
   }
 
