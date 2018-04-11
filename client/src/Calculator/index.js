@@ -41,7 +41,12 @@ class Calculator extends Component {
     super(props);
 
     this.state = {
-      display: '0'
+      // display: '0',
+      currentOperand: 'operandOne',
+      editingFirstOperand: true,
+      operandOne: '0',
+      operandTwo: '',
+      operator: ''
     };
   }
 
@@ -55,39 +60,81 @@ class Calculator extends Component {
     );
   }
 
+  getCurrentOperandValue = () => this.state[this.state.currentOperand];
+
+  getCurrentDisplayValue = () => {
+    const currentOperandValue = this.state[this.state.currentOperand];
+
+    if (this.state.currentOperand === 'operandTwo' && !currentOperandValue) {
+      return this.state.operandOne;
+    }
+
+    return currentOperandValue;
+  }
+
+  // this function sucks and I wish I had time to refactor it
+  // ...bad programming here :(
   onNumberPress = (event, key) => {
     event.preventDefault();
 
-    const { display } = this.state;
-    const currentDisplay = String(display);
-    const newDisplay = currentDisplay === '0' ? String(key) : currentDisplay + key;
+    const currentOperandValue = this.getCurrentOperandValue();
+    const notInitialValue = currentOperandValue && currentOperandValue !== '0';
+    const newOperandValue = notInitialValue ? currentOperandValue + key : String(key);
 
-    this.setState({ display: newDisplay });
+    this.setState({ [this.state.currentOperand]: newOperandValue });
+
+    // const addingSecondDecimal = key === '.' && currentOperand.indexOf('.') >= 0;
+
+    // if (this.state.valueOne && !this.state.operator) {
+    //   newDisplay = String(key);
+    //   return this.setState({ display: newDisplay, valueOne: newDisplay });
+    // }
+
+    // if (!addingSecondDecimal) {
+    // }
   };
 
 
   handleOperatorPress = operator => {
+    const currentOperand = this.state.currentOperand;
+
+    if (currentOperand === 'operandTwo' && !this.state.operandTwo) {
+      return this.setState({
+        operator
+      });
+    }
+
+    const valueOne = parseFloat(this.state.display);
+
+    let newCurrentOperand = ''
+
+    if (currentOperand === 'operandOne') {
+      newCurrentOperand = 'operandTwo';
+    } else {
+      newCurrentOperand = 'operandOne';
+    }
+
     this.setState({
-      valueOne: parseFloat(this.state.display),
-      display: '0',
+      currentOperand: newCurrentOperand,
       operator
     });
   }
 
+  // this function also sucks and I wish I had time to refactor this too
   handleEqualsPress = () => {
-    const { valueOne, operator, display } = this.state;
+    const { operandOne, operandTwo, operator } = this.state;
 
-    if (!valueOne || !operator) {
+    if (!operandOne || !operator) {
       return;
     }
 
-    const result = this.operations[operator](valueOne, parseFloat(display));
+    const result = this.operations[operator](parseFloat(operandOne), parseFloat(operandTwo));
 
     const operation = {
       operator,
-      valueOne,
+      valueOne: parseFloat(operandOne),
       result,
-      valueTwo: parseFloat(display)
+      valueTwo: parseFloat(operandTwo)
     };
 
     this.props.addOperation({
@@ -103,18 +150,18 @@ class Calculator extends Component {
     });
 
     this.setState({
-      display: String(result),
-      valueTwo: '',
-      operator: '',
-      valueOne: result
+      operandOne: String(result),
+      operandTwo: '',
+      currendOperand: 'operandOne',
+      operator: ''
     });
   }
 
   onClear = () => {
     this.setState({
-      display: '0',
-      valueOne: '',
-      valueTwo: '',
+      operandOne: '0',
+      operandTwo: '',
+      currendOperand: '',
       operator: ''
     })
   }
@@ -159,7 +206,7 @@ class Calculator extends Component {
   render() {
     return <CalculatorContainer>
       <Display>
-        {this.state.display}
+        {this.getCurrentDisplayValue()}
       </Display>
 
       <KeysContainer>
@@ -204,6 +251,11 @@ class Calculator extends Component {
           > = </Key>
         </OperatorsContainer>
       </KeysContainer>
+
+      <p style={{color: 'white'}}>{this.state.operandOne}</p>
+      <p style={{color: 'white'}}>{this.state.operandTwo}</p>
+      <p style={{color: 'white'}}>{this.state.currentOperand}</p>
+      <p style={{color: 'white'}}>{this.state.operator}</p>
     </CalculatorContainer>;
   }
 }
