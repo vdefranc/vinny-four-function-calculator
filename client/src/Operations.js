@@ -6,10 +6,18 @@ import styled from 'styled-components';
 const Header = styled.h3`
   color: #ccc;
   margin-top: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: auto;
+  z-index: 1;
 `;
 
 const OuterContainer = styled.aside`
   margin-left: 1em;
+  position: relative;
+  padding-top: 2em;
 `;
 
 const Container = styled.div`
