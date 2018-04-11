@@ -41,7 +41,6 @@ class Calculator extends Component {
     super(props);
 
     this.state = {
-      // display: '0',
       currentOperand: 'operandOne',
       editingFirstOperand: true,
       operandOne: '0',
@@ -51,13 +50,13 @@ class Calculator extends Component {
   }
 
   componentWillMount() {
-    this.numberKeys = Array(10).fill('').map((item, index) =>
-    <Key key={index}
-      number={index}
-      onKeyPress={this.onNumberPress}
-      isDoubleWidth={index === 0}
-      > {index} </Key>
-    );
+    this.numberKeys = Array(10).fill('').map((item, index) => {
+      return <Key key={index}
+        number={index}
+        onKeyPress={this.onNumberPress}
+        isDoubleWidth={index === 0}
+      > {index} </Key>;
+    });
   }
 
   getCurrentOperandValue = () => this.state[this.state.currentOperand] || '0';
@@ -170,7 +169,6 @@ class Calculator extends Component {
     this.setState({
       operandOne: String(result),
       operandTwo: '',
-      currendOperand: 'operandOne',
       operator: newOperator
     });
   }
@@ -179,7 +177,7 @@ class Calculator extends Component {
     this.setState({
       operandOne: '0',
       operandTwo: '',
-      currendOperand: 'operandOne',
+      currentOperand: 'operandOne',
       operator: ''
     })
   }
@@ -269,11 +267,6 @@ class Calculator extends Component {
           > = </Key>
         </OperatorsContainer>
       </KeysContainer>
-
-      <p style={{color: 'white'}}>{this.state.operandOne}</p>
-      <p style={{color: 'white'}}>{this.state.operandTwo}</p>
-      <p style={{color: 'white'}}>{this.state.currentOperand}</p>
-      <p style={{color: 'white'}}>{this.state.operator}</p>
     </CalculatorContainer>;
   }
 }
